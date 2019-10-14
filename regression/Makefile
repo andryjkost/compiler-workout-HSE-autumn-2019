@@ -1,4 +1,4 @@
-TESTS=test001 test002 test003 test004 test005 test006 test007 test008
+TESTS=$(basename $(wildcard test*.expr))
 
 RC=../src/rc.opt
 
@@ -12,4 +12,6 @@ $(TESTS): %: %.expr
 	@cat $@.input | $(RC) -s $< > $@.log && diff $@.log orig/$@.log
 
 clean:
-	rm -f test*.log *.s *~ $(TESTS)
+	$(RM) test*.log *.s *~ $(TESTS)
+	$(MAKE) clean -C expressions
+	$(MAKE) clean -C deep-expressions
